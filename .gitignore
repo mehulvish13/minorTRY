@@ -23,3 +23,11 @@ Thumbs.db
 .ruff_cache/
 dist/
 build/
+
+# ML model artifacts
+*.pkl
+
+# Generated large data artifacts
+fitness_ai/landmarks.csv
+fitness_ai/calculated_3d_distances.csv
+fitness_ai/xyz_distances.csv
