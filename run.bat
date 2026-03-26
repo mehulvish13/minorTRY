@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-set "PROJECT_DIR=%~dp0mehulu"
+set "PROJECT_DIR=%~dp0fitness_ai"
 set "PYTHON_EXE=%PROJECT_DIR%\.venv311\Scripts\python.exe"
 set "SCRIPT=%PROJECT_DIR%\realtime_detection.py"
 

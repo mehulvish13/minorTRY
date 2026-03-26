@@ -10,7 +10,7 @@ This project detects workout type from pose features and supports:
 ## Project layout
 
 ```text
-mehulu/
+fitness_ai/
   train_model.py
   predict.py
   realtime_detection.py
@@ -44,8 +44,8 @@ Open a terminal in the repository root (the folder that contains `run.bat`).
 ### Windows (PowerShell)
 
 ```powershell
-py -3.11 -m venv mehulu/.venv311
-.\mehulu\.venv311\Scripts\Activate.ps1
+py -3.11 -m venv fitness_ai/.venv311
+.\fitness_ai\.venv311\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 pip install numpy pandas scikit-learn joblib mediapipe opencv-python fastapi uvicorn pydantic
 ```
@@ -53,8 +53,8 @@ pip install numpy pandas scikit-learn joblib mediapipe opencv-python fastapi uvi
 ### macOS / Linux (bash/zsh)
 
 ```bash
-python3.11 -m venv mehulu/.venv311
-source mehulu/.venv311/bin/activate
+python3.11 -m venv fitness_ai/.venv311
+source fitness_ai/.venv311/bin/activate
 python -m pip install --upgrade pip
 pip install numpy pandas scikit-learn joblib mediapipe opencv-python fastapi uvicorn pydantic
 ```
@@ -66,7 +66,7 @@ If your system does not have `python3.11`, use your available `python3` version 
 From the repository root:
 
 ```bash
-cd mehulu
+cd fitness_ai
 python train_model.py
 ```
 
@@ -80,7 +80,7 @@ This generates:
 ## 4) Run offline prediction test
 
 ```bash
-cd mehulu
+cd fitness_ai
 python predict.py
 ```
 
@@ -95,7 +95,7 @@ run.bat
 ### Cross-platform command
 
 ```bash
-cd mehulu
+cd fitness_ai
 python realtime_detection.py
 ```
 
@@ -108,7 +108,7 @@ Controls:
 From repository root:
 
 ```bash
-cd mehulu
+cd fitness_ai
 python -m uvicorn backend.backend.app:app --reload
 ```
 
@@ -140,4 +140,4 @@ The number of values must match the model feature count.
 ## Notes
 
 - The script `check_dataset.py` contains an old hardcoded local file path and is not required for normal use.
-- Keep model `.pkl` files in `mehulu/` so all scripts can load them correctly.
+- Keep model `.pkl` files in `fitness_ai/` so all scripts can load them correctly.

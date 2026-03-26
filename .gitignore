@@ -1,0 +1,25 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+.venv311/
+fitness_ai/.venv311/
+
+# Tooling and editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build and test artifacts
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/

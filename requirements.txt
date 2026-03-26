@@ -1,0 +1,9 @@
+numpy
+pandas
+scikit-learn
+joblib
+mediapipe
+opencv-python
+fastapi
+uvicorn
+pydantic
