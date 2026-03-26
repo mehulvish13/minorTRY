@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exercise Predictor Tester</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+
+    :root {
+      --bg-0: #f5f1e8;
+      --bg-1: #e8efe0;
+      --card: #fffdf8;
+      --text: #172217;
+      --muted: #4b5b4d;
+      --accent: #1f8a5f;
+      --accent-2: #d46a2e;
+      --border: #cad8c4;
+      --danger: #9f2f2f;
+      --ok: #1f7a45;
+      --shadow: 0 10px 30px rgba(23, 34, 23, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text);
+      background: radial-gradient(1000px 600px at 0% 0%, #f7e0ce, transparent 70%),
+                  radial-gradient(1000px 600px at 100% 100%, #d9e8d2, transparent 70%),
+                  linear-gradient(130deg, var(--bg-0), var(--bg-1));
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .panel {
+      width: min(900px, 100%);
+      background: color-mix(in srgb, var(--card) 94%, white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: rise 420ms ease-out;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .head {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(31, 138, 95, 0.13), rgba(212, 106, 46, 0.13));
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+
+    .sub {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .content {
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+
+    textarea, input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font: inherit;
+      color: var(--text);
+      background: #ffffff;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .row {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 700px) {
+      .row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 120ms ease, opacity 120ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .secondary {
+      background: #e6ece4;
+      color: var(--text);
+    }
+
+    .result {
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #ffffff;
+      min-height: 76px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 0.95rem;
+    }
+
+    .ok {
+      color: var(--ok);
+    }
+
+    .err {
+      color: var(--danger);
+    }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <header class="head">
+      <h1>Exercise Predictor Test UI</h1>
+      <p class="sub">Paste comma-separated numbers, then send to your FastAPI <strong>/predict</strong> endpoint.</p>
+    </header>
+
+    <section class="content">
+      <div class="row">
+        <div>
+          <label for="apiUrl">API URL</label>
+          <input id="apiUrl" value="/predict" />
+        </div>
+        <div>
+          <label for="format">Payload style</label>
+          <input id="format" value="{\"data\": [...]}" readonly />
+        </div>
+      </div>
+
+      <div>
+        <label for="numbers">Input values</label>
+        <textarea id="numbers" placeholder="Example: 0,10,20,30,40,50,60,70,80,90,100"></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="secondary" id="sampleBtn" type="button">Fill sample</button>
+        <button class="primary" id="sendBtn" type="button">Send prediction</button>
+      </div>
+
+      <div>
+        <label>Response</label>
+        <div id="result" class="result">Waiting for request...</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const sample = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    const numbersEl = document.getElementById('numbers');
+    const apiUrlEl = document.getElementById('apiUrl');
+    const resultEl = document.getElementById('result');
+    const sampleBtn = document.getElementById('sampleBtn');
+    const sendBtn = document.getElementById('sendBtn');
+
+    sampleBtn.addEventListener('click', () => {
+      numbersEl.value = sample.join(',');
+      resultEl.className = 'result';
+      resultEl.textContent = 'Sample loaded. Click "Send prediction".';
+    });
+
+    sendBtn.addEventListener('click', async () => {
+      try {
+        const raw = numbersEl.value.trim();
+        if (!raw) {
+          throw new Error('Please enter at least one number.');
+        }
+
+        const values = raw
+          .split(/[\s,]+/)
+          .filter(Boolean)
+          .map((n) => Number(n));
+
+        if (values.some((v) => Number.isNaN(v))) {
+          throw new Error('Input contains non-numeric values.');
+        }
+
+        resultEl.className = 'result';
+        resultEl.textContent = 'Sending request...';
+
+        const res = await fetch(apiUrlEl.value || '/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ data: values })
+        });
+
+        const json = await res.json();
+        if (!res.ok) {
+          throw new Error(json.detail || JSON.stringify(json));
+        }
+
+        resultEl.className = 'result ok';
+        resultEl.textContent = `Prediction: ${json.exercise}\n\nRaw response:\n${JSON.stringify(json, null, 2)}`;
+      } catch (err) {
+        resultEl.className = 'result err';
+        resultEl.textContent = `Error: ${err.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
