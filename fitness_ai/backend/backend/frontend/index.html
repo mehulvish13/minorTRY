@@ -248,7 +248,13 @@
         }
 
         resultEl.className = 'result ok';
-        resultEl.textContent = `Prediction: ${json.exercise}\n\nRaw response:\n${JSON.stringify(json, null, 2)}`;
+        const formLine = json.form_status
+          ? `Form: ${json.form_status.toUpperCase()} (score: ${json.form_score ?? 'N/A'})\n`
+          : '';
+        const tipsLine = Array.isArray(json.feedback) && json.feedback.length
+          ? `Tips: ${json.feedback.join('; ')}\n`
+          : '';
+        resultEl.textContent = `Prediction: ${json.exercise}\n${formLine}${tipsLine}\nRaw response:\n${JSON.stringify(json, null, 2)}`;
       } catch (err) {
         resultEl.className = 'result err';
         resultEl.textContent = `Error: ${err.message}`;
