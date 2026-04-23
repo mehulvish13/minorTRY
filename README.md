@@ -1,4 +1,4 @@
-# Mehulu Fitness Exercise Predictor
+#  Fitness Exercise Predictor
 
 Detect exercise type from pose features, run real-time webcam inference with rep counting, and expose predictions through a FastAPI backend.
 
